@@ -1,66 +1,35 @@
-import { Component } from '@angular/core';
-import {
-  AvailableResult,
-  BiometryType,
-  NativeBiometric,
-} from 'capacitor-native-biometric';
+import { AfterViewInit, Component,ComponentFactoryResolver, Input, OnInit, Type, ViewChild, ViewContainerRef } from '@angular/core';
+import { LoginComponent } from './components/login/login.component';
+import { SettingsComponent } from './components/settings/settings.component';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit, AfterViewInit {
   title = 'login-spa';
-  constructor() {}
+  @ViewChild('dynamicComponent', {read: ViewContainerRef}) myRef!: any;
+  @Input() view!: any;
+  @Input() data!: any;
 
-  setCredential() {
-    // Save user's credentials
-    NativeBiometric.setCredentials({
-      username: 'username',
-      password: 'password',
-      server: 'www.example.com',
-    }).then();
+  mappingView: any = [
+    {name: 'login', component: LoginComponent},
+    {name: 'settings', component: SettingsComponent}
+  ]
+
+  constructor(private componentFactoryResolver: ComponentFactoryResolver) {}
+
+  ngOnInit(): void {
+    this.view = 'login';
   }
 
-  deleteCredential() {
-    // Delete user's credentials
-    NativeBiometric.deleteCredentials({
-      server: 'www.example.com',
-    });
+  ngAfterViewInit(): void {
+    let viewData = this.mappingView.find((data: { name: string }) => data.name === this.view);
+    const factory = this.componentFactoryResolver.resolveComponentFactory(viewData.component);
+    const ref = this.myRef.createComponent(factory);
+    ref.instance.data = this.data;
+    ref.changeDetectionRef.detectChanges();
   }
-
-  checkCredential() {
-    NativeBiometric.isAvailable().then((result: AvailableResult) => {
-      const isAvailable = result.isAvailable;
-      alert('RESULT ' + JSON.stringify(result));
-      // const isFaceId=result.biometryType==BiometryType.FACE_ID;
-      // const isFaceId = result.biometryType == BiometryType.FACE_ID;
-
-      if (isAvailable) {
-        // Get user's credentials
-        NativeBiometric.getCredentials({
-          server: 'www.example.com',
-        }).then((credentials) => {
-          alert('CREDENTIAL ' + JSON.stringify(credentials));
-          // Authenticate using biometrics before logging the user in
-          NativeBiometric.verifyIdentity({
-            reason: 'For easy log in',
-            title: 'Log in',
-            subtitle: 'Maybe add subtitle here?',
-            description: 'Maybe a description too?',
-          })
-            .then(() => {
-              //     // Authentication successful
-              alert('SUCCESS!!');
-              //     // this.login(credentials.username, credentials.password);
-            })
-            .catch((err) => {
-              //   // Failed to authenticate
-              alert('FAIL!');
-            });
-        });
-      }
-    });
-  }
+ 
 }
