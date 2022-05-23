@@ -14,7 +14,7 @@ import {createCustomElement} from '@angular/elements';
     AppRoutingModule
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  //bootstrap: [AppComponent]
 })
 export class AppModule {
   constructor(private injector: Injector) {}
