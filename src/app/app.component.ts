@@ -21,7 +21,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   constructor(private componentFactoryResolver: ComponentFactoryResolver) {}
 
   ngOnInit(): void {
-    this.view = 'login';
+    //this.view = 'login';
   }
 
   ngAfterViewInit(): void {

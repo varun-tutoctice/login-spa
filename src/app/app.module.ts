@@ -18,7 +18,7 @@ import { SettingsComponent } from './components/settings/settings.component';
     AppRoutingModule
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  //bootstrap: [AppComponent]
 })
 export class AppModule {
   constructor(private injector: Injector) {}
