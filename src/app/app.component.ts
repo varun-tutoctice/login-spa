@@ -12,6 +12,8 @@ export class AppComponent implements OnInit, AfterViewInit {
   @ViewChild('dynamicComponent', {read: ViewContainerRef}) myRef!: any;
   @Input() view!: any;
   @Input() data!: any;
+  @Input() route: any;
+  ref: any;
 
   mappingView: any = [
     {name: 'login', component: LoginComponent},
@@ -21,15 +23,25 @@ export class AppComponent implements OnInit, AfterViewInit {
   constructor(private componentFactoryResolver: ComponentFactoryResolver) {}
 
   ngOnInit(): void {
-    //this.view = 'login';
+    
   }
 
   ngAfterViewInit(): void {
+    this.view = 'login';
     let viewData = this.mappingView.find((data: { name: string }) => data.name === this.view);
     const factory = this.componentFactoryResolver.resolveComponentFactory(viewData.component);
-    const ref = this.myRef.createComponent(factory);
-    ref.instance.data = this.data;
-    ref.changeDetectionRef.detectChanges();
+    this.ngOnDestroy();
+    this.ref = this.myRef.createComponent(factory);
+    this.ref.changeDetectionRef?.detectChanges();
+    this.ref.instance.route = this.route;
+    // ref.instance.view = "View View";
+
+  }
+
+  ngOnDestroy(): void {
+    if (this.ref) {
+      this.ref.changeDetectorRef?.detach();
+    }
   }
  
 }
