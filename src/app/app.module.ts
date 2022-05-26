@@ -16,12 +16,14 @@ import { AuthenticationService } from './services/authentication/authentication.
 import { CapacitorBiometricService } from './services/capacitor-biometric/capacitor-biometric.service';
 import { IonLoaderService } from './services/ion-loader/ion-loader.service';
 import { IonicModule } from '@ionic/angular';
+import { SignupComponent } from './components/signup/signup.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    SettingsComponent
+    SettingsComponent,
+    SignupComponent
   ],
   imports: [
     BrowserModule,
@@ -35,7 +37,7 @@ import { IonicModule } from '@ionic/angular';
     QRCodeModule,
   ],
   providers: [AuthenticationService,CapacitorBiometricService,IonLoaderService],
-  bootstrap: [AppComponent]
+  //bootstrap: [AppComponent]
 })
 export class AppModule {
   constructor(private injector: Injector) {}

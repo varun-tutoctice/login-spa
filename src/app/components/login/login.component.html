@@ -2,7 +2,7 @@
     <div class="container-fluid">
         <div class="row justify-content-center justify-content-lg-start">
             <div class="col-lg-4 col-12 text-center pt-4">
-                <img src="../../../assets/tcb-logo/tcb-logo-white.png" height="60" alt="">
+                <img src="assets/tcb-logo/tcb-logo-white.png" height="60" alt="">
             </div>
         </div>
 
@@ -26,6 +26,19 @@
                                 <input type="password" id="password" formControlName="password" required />
                                 <label for="password">Password</label>
                             </div>
+
+                            <!-- <div class="form-check mt-1 float-left">
+                                <input class="form-check-input" type="checkbox" value="" id="Remember">
+                                <label class="form-check-label" for="Remember">
+                                    Remember Me
+                                </label>
+                            </div> -->
+
+                            <div *ngIf="hideBiometric" class="form-group">
+                                <input (change)="changeChecked($event)" type="checkbox" id="biometric" [checked]="this.biometricChecked | async">
+                                <label style="margin-top: 5px; font-weight: 500;" for="biometric">Enable Biometric</label>
+                            </div>
+
 
                             <div class="text-center">
                                 <button type="button" class="btn btn-lg btn-block btn-primary"
@@ -52,25 +65,25 @@
                         <div class="row">
                             <ul class="list-group col-12">
                                 <li *ngFor="let mfaItems of mfaList; let i = index" class="list-group-item">
-                                    <span class="cursor-pointer"
+                                    <a class="cursor-pointer"
                                         *ngIf="mfaItems?.authenticator_type == 'otp' && mfaItems?.active == true"
-                                        (click)="submitSelection(mfaItems.authenticator_type,mfaItems.id,mfaItems.name)">OTP</span>
-                                    <span class="cursor-pointer"
+                                        (click)="submitSelection(mfaItems.authenticator_type,mfaItems.id,mfaItems.name)">OTP</a>
+                                    <a class="cursor-pointer"
                                         *ngIf="mfaItems?.authenticator_type == 'oob' && mfaItems?.oob_channel =='auth0' && mfaItems?.active == true"
                                         (click)="submitSelection(mfaItems.authenticator_type,mfaItems.id,mfaItems.name)">Push
-                                        Notification</span>
-                                    <span class="cursor-pointer"
+                                        Notification</a>
+                                    <a class="cursor-pointer"
                                         *ngIf="mfaItems?.authenticator_type == 'oob' && mfaItems?.oob_channel =='sms' && mfaItems?.active == true"
                                         (click)="submitSelection(mfaItems.authenticator_type,mfaItems.id,mfaItems.name)">SMS
-                                        Notification</span>
-                                    <span class="cursor-pointer"
+                                        Notification</a>
+                                    <a class="cursor-pointer"
                                         *ngIf="mfaItems?.authenticator_type == 'oob' && mfaItems?.oob_channel =='email' && mfaItems?.active == true"
                                         (click)="submitSelection(mfaItems.authenticator_type,mfaItems.id,mfaItems.name)">Email
-                                        Notification</span>
-                                    <span class="cursor-pointer"
+                                        Notification</a>
+                                    <a class="cursor-pointer"
                                         *ngIf="mfaItems?.authenticator_type == 'recovery-code' && mfaItems?.active == true"
                                         (click)="submitSelection(mfaItems.authenticator_type,mfaItems.id,mfaItems.name)">Recovery
-                                        Code</span>
+                                        Code</a>
                                 </li>
                             </ul>
                         </div>
@@ -94,17 +107,17 @@
                         <div class="row">
                             <ul class="list-group col-12">
                                 <li *ngFor="let mfaItems of enrol; let i = index" class="list-group-item">
-                                    <span class="cursor-pointer" *ngIf="mfaItems?.authenticator_type != 'oob'"
+                                    <a class="cursor-pointer" *ngIf="mfaItems?.authenticator_type != 'oob'"
                                         (click)="submitEnrolment(mfaItems.authenticator_type,mfaItems.oob_channel)">OTP
-                                        Notification</span>
-                                    <span class="cursor-pointer"
+                                        Notification</a>
+                                    <a class="cursor-pointer"
                                         *ngIf="mfaItems?.authenticator_type == 'oob' && mfaItems?.oob_channel =='auth0'"
                                         (click)="submitEnrolment(mfaItems.authenticator_type,mfaItems.oob_channel)">Push
-                                        Notification</span>
-                                    <span class="cursor-pointer"
+                                        Notification</a>
+                                    <a class="cursor-pointer"
                                         *ngIf="mfaItems?.authenticator_type == 'oob' && mfaItems?.oob_channel =='sms'"
                                         (click)="submitEnrolment(mfaItems.authenticator_type,mfaItems.oob_channel)">SMS
-                                        Notification</span>
+                                        Notification</a>
                                 </li>
                             </ul>
                         </div>
@@ -127,16 +140,16 @@
                             </div>
                         </div>
 
-                        <div class="row">
+                        <div class="row text-center">
                             <div class="col-lg-6 col-md-12 col-sm-12 col-12 mb-2 mb-lg-0">
                                 <a target="_blank"
                                     href="https://play.google.com/store/apps/details?id=com.auth0.guardian">
-                                    <img src="../../../assets/icons/playstore.png" height="55" alt="">
+                                    <img src="assets/icons/playstore.png" height="55" alt="">
                                 </a>
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-6 col-12">
                                 <a target="_blank" href="https://apps.apple.com/us/app/auth0-guardian/id1093447833">
-                                    <img src="../../../assets/icons/appstore.png" height="55" alt="">
+                                    <img src="assets/icons/appstore.png" height="55" alt="">
                                 </a>
                             </div>
                         </div>
@@ -222,6 +235,13 @@
                                 <button type="button" class="btn btn-lg btn-block btn-primary"
                                     (click)="submitPhone(phoneForm)">Submit</button>
                             </div>
+                            <div>
+                                <div class="text-center col-12">
+                                    <span class="cursor-pointer" (click)="ContinueOtherMethods()"
+                                        style="cursor: pointer; font-weight:600">Try Another
+                                        Method</span>
+                                </div>
+                            </div>
                         </div>
                     </form>
                 </div>
@@ -247,6 +267,13 @@
                                 <button type="button" class="btn btn-lg btn-block btn-primary"
                                     (click)="submitOTP(smsOTP)">Submit</button>
                             </div>
+                            <div>
+                                <div class="text-center col-12">
+                                    <span class="cursor-pointer" (click)="ContinueOtherMethods()"
+                                        style="cursor: pointer; font-weight:600">Try Another
+                                        Method</span>
+                                </div>
+                            </div>
                         </div>
                     </form>
                 </div>
@@ -268,7 +295,8 @@
                             <div class="row">
                                 <div class="col">
                                     <div class="text-center">
-                                        <img class="shake-animation" src="../../../assets/icons/mobilePhone.png" height="200" alt="">
+                                        <img class="shake-animation" src="../../../assets/icons/mobilePhone.png"
+                                            height="200" alt="">
                                     </div>
                                 </div>
                             </div>
@@ -278,6 +306,13 @@
                                     <h3 class="text-center">
                                         {{deviceName}}
                                     </h3>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="text-center col-12">
+                                    <span class="cursor-pointer" (click)="ContinueOtherMethods()"
+                                        style="cursor: pointer; font-weight:600">Try Another
+                                        Method</span>
                                 </div>
                             </div>
                         </div>

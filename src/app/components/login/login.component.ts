@@ -40,6 +40,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
   barCode: any;
   recoveryCode: any;
   changeString:any;
+  backtoMfa!: boolean;
   listofAuthentications = [
     {
       authenticator_type: "oob",
@@ -141,11 +142,13 @@ export class LoginComponent implements OnInit, AfterViewInit {
          // console.log(o2.active == true && o2.oob_channel == 'auth0')
           if((o2.active == true && o2.oob_channel == 'auth0') || (o2.active == true && o2.authenticator_type == 'otp') && (o2.active == true && o2.oob_channel == 'sms')) {
             console.log(true);
+            this.backtoMfa = true;
             this.displaySelections = false;
             this.authListTypes = true;
             this.titleString = "Login"
           } else if((o2.active != true && o2.oob_channel == 'auth0') || (o2.active != true && o2.authenticator_type == 'otp') && (o2.active != true && o2.oob_channel == 'sms')) {
             console.log(false);
+            this.backtoMfa = false;
             this.titleString = "Secure Your Account"
             this.displaySelections = true;
             this.authListTypes = false;
@@ -382,11 +385,25 @@ export class LoginComponent implements OnInit, AfterViewInit {
     }
   }
   ContinueOtherMethods() {
-    this.displayQRCodeInfo = false;
-    this.displayOTP = false;
-    this.displayLogin = false;
-    this.displaySelections = true;
-    this.displayPhoneRegistration = false;
-    this.displayPlayStoreInfo = false;
+    if(this.backtoMfa == true) {
+      this.displayQRCodeInfo = false;
+      this.displayOTP = false;
+      this.displayLogin = false;
+      this.displaySelections = false;
+      this.displayPhoneRegistration = false;
+      this.authListTypes = true;
+      this.displayPlayStoreInfo = false;
+      this.verifyMFA = false;
+    } else if (this.backtoMfa == false) {
+      this.displayQRCodeInfo = false;
+      this.displayOTP = false;
+      this.displayLogin = false;
+      this.displaySelections = true;
+      this.displayPhoneRegistration = false;
+      this.authListTypes = false;
+      this.displayPlayStoreInfo = false;
+      this.verifyMFA = false;
+    }
+
   }
 }

@@ -74,7 +74,7 @@ export class CapacitorBiometricService {
           })
             .then(() => {
               //     // Authentication successful
-              this.ionLoader.simpleLoader("Please wait")
+             // this.ionLoader.simpleLoader("Please wait")
               this.auth.loginWithPassword(credentials.username, credentials.password);
              // alert('SUCCESS!!');
               //     // this.login(credentials.username, credentials.password);

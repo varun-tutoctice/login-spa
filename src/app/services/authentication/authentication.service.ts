@@ -47,7 +47,7 @@ export class AuthenticationService {
       .then(() => {
         console.debug('successfully logged in');
         this.oauthService.setStorage(localStorage);
-        this.ionLoader.dismissLoader();
+       // this.ionLoader.dismissLoader();
        // this.router.navigateByUrl('home');
         this.loginFailed = false;
       })
@@ -87,12 +87,14 @@ export class AuthenticationService {
     //this.vaultSerice.clearVault();
     if (
       this.getPlatformInformation == 'android' ||
-      this.getPlatformInformation == 'ios'
+      this.getPlatformInformation == 'ios' || this.getPlatformInformation == 'web'
     ) {
-      this.ionLoader.autoLoaderLogout();
-    } else if (this.getPlatformInformation == 'web') {
+      //this.ionLoader.autoLoaderLogout();
       this.router.navigateByUrl('login');
     }
+    // } else if (this.getPlatformInformation == 'web') {
+    //   this.router.navigateByUrl('login');
+    // }
   }
 
   enrollMFA(selection: string,email: any, phone: any) {
@@ -171,11 +173,6 @@ export class AuthenticationService {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${token}`
     })
-    // var data = {
-    //   client_id: `${auth0Config.clientId}`,
-    //   user_id: `${userid}`,
-    //   type: "refresh_token",
-    // }
     return this.http.get(`https://thingproxy.freeboard.io/fetch/https://tcb-auth0poc.us.auth0.com/api/v2/logs`,{ headers: headers });
   }
 
@@ -191,16 +188,4 @@ export class AuthenticationService {
     return this.oauthService.getAccessTokenExpiration();
   }
 
-  // get givenName() {
-  //   var claims = this.oauthService.getIdentityClaims();
-  //   console.log(claims);
-  //   if (!claims) return null;
-  //   return claims['given_name'];
-  // }
-
-  // get familyName() {
-  //   var claims = this.oauthService.getIdentityClaims();
-  //   if (!claims) return null;
-  //   return claims['family_name'];
-  // }
 }

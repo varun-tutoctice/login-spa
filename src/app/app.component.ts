@@ -27,7 +27,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.view = 'login';
+    // /this.view = 'login';
     let viewData = this.mappingView.find((data: { name: string }) => data.name === this.view);
     const factory = this.componentFactoryResolver.resolveComponentFactory(viewData.component);
     this.ngOnDestroy();
